@@ -1,2 +1,2 @@
 # qihucms-red-packet
-This is qihucms's plugin.
+七狐CMS红包插件。
