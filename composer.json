@@ -1,5 +1,5 @@
 {
-  "name": "liuhu/qihucms-red-packet",
+  "name": "jncinet/qihucms-red-packet",
   "description": "qihucms's plugin",
   "keywords": [
     "laravel",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "liuhu",
+      "name": "zhangye",
       "email": "y@qilephp.com"
     }
   ],
