@@ -1,26 +1,33 @@
 {
-    "name": "qihucms/red-packet",
-    "description": "qihucms's plugin",
-    "authors": [
-        {
-            "name": "张晔",
-            "email": "y@qilephp.com"
-        }
-    ],
-    "require": {
-        "php": ">=7.2",
-        "laravel/framework": ">=6.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "Qihucms\\RedPacket\\": "src/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Qihucms\\RedPacket\\RedPacketServiceProvider"
-            ]
-        }
+  "name": "liuhu/qihucms-red-packet",
+  "description": "qihucms's plugin",
+  "keywords": [
+    "laravel",
+    "qihucms",
+    "red-packet"
+  ],
+  "homepage": "https://www.qihucms.com",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "liuhu",
+      "email": "y@qilephp.com"
     }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "laravel/framework": ">=6.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Qihucms\\RedPacket\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Qihucms\\RedPacket\\RedPacketServiceProvider"
+      ]
+    }
+  }
 }
