@@ -13,9 +13,9 @@ class RedPacketServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        $this->app->singleton(RedPacket::class, function () {
-//            return new RedPacket();
-//        });
+        $this->app->singleton(RedPacket::class, function () {
+            return new RedPacket();
+        });
     }
 
     /**
@@ -28,9 +28,9 @@ class RedPacketServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes.php');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-//
+
 //        $this->loadFactoriesFrom(__DIR__.'/../database/factories');
-//
+
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'red_packet');
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'red_packet');

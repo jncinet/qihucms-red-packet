@@ -16,8 +16,10 @@ class CreateQihuRedPacketLogsTable extends Migration
         Schema::create('qihu_red_packet_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('red_packet_id')->index()->comment('红包ID');
-            $table->unsignedBigInteger('user_id')->index()->comment('红包领取ID');
+            $table->unsignedBigInteger('user_id')->index()->comment('发送会员ID');
+            $table->unsignedBigInteger('to_user_id')->index()->comment('领取会员ID');
             $table->unsignedDecimal('amount')->comment('领取的金额');
+            $table->string('remark')->nullable()->comment('备注');
             $table->timestamps();
         });
     }
