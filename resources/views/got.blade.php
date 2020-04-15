@@ -18,34 +18,13 @@
                 transform: translate(0, 0);
             }
         }
-
-        .red-pack-wrap {
-            z-index: 1040;
-        }
-
-        .red-pack {
-            color: #fff;
-            margin: 0 auto;
-            background: orangered;
-            border-radius: 4px;
-            width: 50vw;
-            height: 100px;
-            transform: translate(0, -100%) rotate(0deg) scale(0);
-            transition: all 5000ms;
-        }
-        .red-pack-transition {
-            transform: translate(10px, 260px) rotate(720deg) scale(1);
-        }
     </style>
 @endsection
 
 @inject('photo', 'App\Services\PhotoService')
 @section('content')
-    <div class="fixed-top red-pack-wrap">
-        <div class="red-pack">fdsafdsafasdfsda</div>
-    </div>
     <div class="fixed-top">
-        <div class="media bg-primary align-items-center">
+        <div class="media bg-primary align-items-center" onclick="showRedPacket()">
             <a href="{{ route('member.wap.wallet') }}"
                class="iconfont icon-houtuishangyige text-warning font-weight-bold p-2 font-size-20"
                aria-hidden="true"></a>
@@ -57,7 +36,7 @@
     <div style="height: 46px"></div>
     <div class="bg-light pt-4">
         <img width="66" height="66" class="rounded d-block mx-auto"
-             src="{{ $photo->getImgUrl(Auth::user()['avatar'], 132,132,0,'avatar') }}"
+             src="{{ $photo->getImgUrl(Auth::user()['avatar'], 132, 132, 0,'avatar') }}"
              alt="会员头像">
         <div class="text-center pt-2">
             <div class="pb-2">{{ Auth::user()['nickname'] }}共发出</div>
@@ -67,6 +46,7 @@
             </div>
         </div>
     </div>
+    @includeIf('red_packet::include.send', ['module_name' => 'short_video', 'module_id' => 1])
     <div class="d-flex bg-light qh-border-bottom text-center justify-content-around pt-2 pb-3">
         <div>
             <div class="font-size-20 text-info">4324</div>
@@ -194,14 +174,31 @@
 @endsection
 
 @push('scripts')
+    @includeIf('red_packet::include.send_js')
     <script>
+        function showMenu() {
+            $.actions({
+                actions: [{
+                    text: "收到的红包",
+                    onClick: function () {
+                        window.location.href = "{{ route('plugin-red-packet.get') }}"
+                    }
+                }, {
+                    text: "发出的红包",
+                    onClick: function () {
+                        window.location.href = "{{ route('plugin-red-packet.got') }}"
+                    }
+                }]
+            });
+        }
+
         var loading = false;
         $(document.body).infinite().on("infinite", function () {
             if (loading) return;
             loading = true;
             $('#items-loading').removeClass('d-none');
 
-            axios.get('{{ route('red-packet.got') }}').then(function () {
+            axios.get('{{ route('plugin-red-packet.got') }}').then(function () {
                 setTimeout(function () {
                     $("#items-wrap").append('<div class="media py-2 qh-border-bottom show-item">\n' +
                         '            <div class="media-body">\n' +
@@ -242,21 +239,5 @@
                 }, 1500);
             });
         });
-
-        function showMenu() {
-            $.actions({
-                actions: [{
-                    text: "收到的红包",
-                    onClick: function () {
-                        window.location.href = "{{ route('red-packet.get') }}"
-                    }
-                }, {
-                    text: "发出的红包",
-                    onClick: function () {
-                        window.location.href = "{{ route('red-packet.got') }}"
-                    }
-                }]
-            });
-        }
     </script>
 @endpush

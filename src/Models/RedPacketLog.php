@@ -17,6 +17,11 @@ class RedPacketLog extends Model
         'updated_at' => 'datetime:Y-m-d',
     ];
 
+    public function red_packet()
+    {
+        return $this->belongsTo('Qihucms\RedPacket\Models\RedPacket', 'red_packet_id', 'id');
+    }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');

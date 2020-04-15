@@ -5,7 +5,7 @@ namespace Qihucms\RedPacket\Resources;
 use App\Http\Resources\User\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RedPacketLog extends JsonResource
+class RedPacket extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,10 +18,16 @@ class RedPacketLog extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => new User($this->user),
-            'to_user_id' => new User($this->to_user),
-            'red_packet_id' => new RedPacket($this->red_packet),
+            'module_name' => $this->module_name,
+            'module_id' => $this->module_id,
+            'type' => $this->type,
+            'money_type' => $this->money_type,
+            'money_total' => $this->money_total,
             'amount' => $this->amount,
-            'remark' => $this->remark
+            'message' => $this->message,
+            'rule' => $this->rule,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
         ];
     }
 }

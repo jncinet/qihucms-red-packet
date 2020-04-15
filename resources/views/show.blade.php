@@ -94,12 +94,12 @@
                 actions: [{
                     text: "收到的红包",
                     onClick: function () {
-                        window.location.href = "{{ route('red-packet.get') }}"
+                        window.location.href = "{{ route('plugin-red-packet.get') }}"
                     }
                 }, {
                     text: "发出的红包",
                     onClick: function () {
-                        window.location.href = "{{ route('red-packet.got') }}"
+                        window.location.href = "{{ route('plugin-red-packet.got') }}"
                     }
                 }]
             });

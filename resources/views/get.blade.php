@@ -73,26 +73,18 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
-        new Vue({
-            el: '#app',
-            data: {
-                message: 'Hello Vue!'
-            }
-        });
-
         function showMenu() {
             $.actions({
                 actions: [{
                     text: "收到的红包",
                     onClick: function () {
-                        window.location.href = "{{ route('red-packet.get') }}"
+                        window.location.href = "{{ route('plugin-red-packet.get') }}"
                     }
                 }, {
                     text: "发出的红包",
                     onClick: function () {
-                        window.location.href = "{{ route('red-packet.got') }}"
+                        window.location.href = "{{ route('plugin-red-packet.got') }}"
                     }
                 }]
             });
