@@ -13,9 +13,7 @@ class RedPacketServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(RedPacket::class, function () {
-            return new RedPacket();
-        });
+        //
     }
 
     /**
