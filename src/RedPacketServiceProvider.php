@@ -27,12 +27,14 @@ class RedPacketServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes.php');
 
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-//        $this->loadFactoriesFrom(__DIR__.'/../database/factories');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'red_packet');
 
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'red_packet');
+        $this->publishes([
+            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/red_packet'),
+        ]);
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'red_packet');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'red_packet');
     }
 }
