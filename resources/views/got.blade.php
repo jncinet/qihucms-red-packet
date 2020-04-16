@@ -46,7 +46,6 @@
             </div>
         </div>
     </div>
-    @includeIf('red_packet::include.send', ['module_name' => 'short_video', 'module_id' => 1])
     <div class="d-flex bg-light qh-border-bottom text-center justify-content-around pt-2 pb-3">
         <div>
             <div class="font-size-20 text-info">4324</div>

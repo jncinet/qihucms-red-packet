@@ -1,4 +1,3 @@
-<a href="javascript:void(0);" class="open-popup" data-target="#send-red-packet">发红包</a>
 <div id="send-red-packet" class="weui-popup__container popup-bottom" style="z-index: 2000">
     <div class="weui-popup__overlay"></div>
     <div class="weui-popup__modal">
