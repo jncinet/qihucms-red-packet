@@ -24,8 +24,8 @@ class CreateQihuRedPacketsTable extends Migration
             $table->unsignedSmallInteger('amount')->default(0)->comment('红包数量');
             $table->string('message')->nullable()->comment('消息');
             $table->json('rule')->nullable()->comment('可领取规则');
-            $table->timestamp('start_time')->nullable()->comment('开始时间');
             $table->timestamp('end_time')->nullable()->comment('结束时间');
+            $table->boolean('status')->default(1)->comment('状态');
             $table->timestamps();
         });
     }

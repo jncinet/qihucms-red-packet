@@ -10,11 +10,10 @@ class RedPacket extends Model
 
     protected $fillable = [
         'user_id', 'module_name', 'module_id', 'type', 'money_type', 'money_total', 'amount',
-        'message', 'rule', 'start_time', 'end_time'
+        'message', 'rule', 'end_time', 'status'
     ];
 
     protected $casts = [
-        'start_time' => 'datetime:Y-m-d',
         'end_time' => 'datetime:Y-m-d',
         'created_at' => 'datetime:Y-m-d',
         'updated_at' => 'datetime:Y-m-d',

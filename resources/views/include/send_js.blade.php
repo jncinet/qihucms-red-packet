@@ -274,4 +274,12 @@
                 });
         });
     });
+
+    function setModuleId(id) {
+        $('input[name="red-packet-module-id"]').val(id);
+    }
+
+    function setModuleName(name) {
+        $('input[name="red-packet-module-name"]').val(name);
+    }
 </script>

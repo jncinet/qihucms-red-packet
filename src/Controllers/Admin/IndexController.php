@@ -46,8 +46,9 @@ class IndexController extends Controller
         $grid->column('amount', __('red_packet::lang.amount'))->suffix('个');
         $grid->column('rule', __('red_packet::lang.rule.label'))
             ->using(__('red_packet::lang.rule.value'));
-        $grid->column('start_time', __('red_packet::lang.start_time'));
         $grid->column('end_time', __('red_packet::lang.end_time'));
+        $grid->column('status', __('red_packet::lang.status.label'))
+            ->using(__('red_packet::lang.status.value'));
 
         return $grid;
     }
@@ -79,10 +80,12 @@ class IndexController extends Controller
         $show->field('message', __('red_packet::lang.message'));
         $show->field('rule', __('red_packet::lang.rule.label'))
             ->using(__('red_packet::lang.rule.value'));
-        $show->field('start_time', __('red_packet::lang.start_time'));
         $show->field('end_time', __('red_packet::lang.end_time'));
         $show->field('created_at', __('admin.created_at'));
         $show->field('updated_at', __('admin.updated_at'));
+
+        $show->field('status', __('red_packet::lang.status.label'))
+            ->using(__('red_packet::lang.status.value'));
 
         return $show;
     }

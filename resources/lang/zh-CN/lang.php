@@ -27,6 +27,9 @@ return [
             'comment' => '领取后自动回复口令（发红包人自定义）',
         ]
     ],
-    'start_time' => '开始时间',
-    'end_time' => '结束时间',
+    'end_time' => '过期时间',
+    'status' => [
+        'label' => '状态',
+        'value' => ['已过期', '发放中']
+    ]
 ];

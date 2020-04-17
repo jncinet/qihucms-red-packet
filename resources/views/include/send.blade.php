@@ -1,8 +1,8 @@
 <div id="send-red-packet" class="weui-popup__container popup-bottom" style="z-index: 2000">
     <div class="weui-popup__overlay"></div>
     <div class="weui-popup__modal">
-        <input type="hidden" name="red-packet-module-name" value="{{ $module_name }}">
-        <input type="hidden" name="red-packet-module-id" value="{{ $module_id }}">
+        <input type="hidden" name="red-packet-module-name" value="other">
+        <input type="hidden" name="red-packet-module-id" value="0">
         <div class="bg-light border-bottom text-center d-flex align-items-center">
             <a class="iconfont icon-houtuishangyige close-popup pl-3 pr-1 py-2 text-dark"
                href="javascript:void(0);"></a>

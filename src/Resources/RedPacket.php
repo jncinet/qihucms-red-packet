@@ -26,8 +26,9 @@ class RedPacket extends JsonResource
             'amount' => $this->amount,
             'message' => $this->message,
             'rule' => $this->rule,
-            'start_time' => $this->start_time,
             'end_time' => $this->end_time,
+            'status' => $this->status,
+            'status_text' => __('red_packet::lang.status.value')[$this->status]
         ];
     }
 }
