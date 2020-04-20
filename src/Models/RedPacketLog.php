@@ -9,7 +9,7 @@ class RedPacketLog extends Model
     protected $table = 'qihu_red_packet_logs';
 
     protected $fillable = [
-        'user_id', 'to_user_id', 'red_packet_id', 'amount', 'remark'
+        'user_id', 'to_user_id', 'red_packet_id', 'money_type', 'amount', 'remark'
     ];
 
     protected $casts = [

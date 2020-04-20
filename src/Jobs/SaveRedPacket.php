@@ -20,10 +20,6 @@ class SaveRedPacket implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $connection = 'redis';
-
-    public $queue = 'red_packet';
-
     protected $data;
 
     /**
@@ -105,6 +101,7 @@ class SaveRedPacket implements ShouldQueue
                     'user_id' => $redPacket->user_id,
                     'to_user_id' => $this->data['to_user_id'],
                     'red_packet_id' => $redPacket->id,
+                    'money_type' => $redPacket->money_type,
                     'amount' => $this->data['money'],
                 ]);
             }

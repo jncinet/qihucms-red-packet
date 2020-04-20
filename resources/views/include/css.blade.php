@@ -1,9 +1,9 @@
 <style>
     .red-pack-win {
+        position: fixed;
         left: 0;
         top: 0;
-        z-index: 1040;
-        margin: 0 auto;
+        z-index: 9999;
         width: 50vw;
         transform: translate(0, -100%) scale(0);
         transition: all 500ms;
@@ -20,7 +20,7 @@
     }
 
     .red-pack-transition {
-        transform: translate(10px, 200px) scale(1);
+        transform: translate(50%, 200px) scale(1);
     }
 
     .red-pack-close {

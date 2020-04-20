@@ -5,7 +5,7 @@ namespace Qihucms\RedPacket\Commands;
 use App\Plugins\RedPacketPlugin;
 use Illuminate\Console\Command;
 
-class UpdateRedPacket extends Command
+class UpdateRedPacketCommand extends Command
 {
     use RedPacketPlugin;
 
@@ -14,7 +14,7 @@ class UpdateRedPacket extends Command
      *
      * @var string
      */
-    protected $signature = 'red_packet:update';
+    protected $signature = 'red-packet:update';
 
     /**
      * The console command description.
@@ -41,6 +41,7 @@ class UpdateRedPacket extends Command
     public function handle()
     {
         $this->clearOverdueRedPacket();
+
         $this->info('update success.');
     }
 }

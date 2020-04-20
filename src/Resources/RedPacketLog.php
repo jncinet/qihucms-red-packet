@@ -3,6 +3,7 @@
 namespace Qihucms\RedPacket\Resources;
 
 use App\Http\Resources\User\User;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RedPacketLog extends JsonResource
@@ -17,11 +18,14 @@ class RedPacketLog extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => new User($this->user),
-            'to_user_id' => new User($this->to_user),
-            'red_packet_id' => new RedPacket($this->red_packet),
+            'user' => new User($this->user),
+            'to_user' => new User($this->to_user),
+            'red_packet' => new RedPacket($this->red_packet),
+            'money_type' => $this->money_type,
+            'money_type_text' => __('red_packet::log.money_type.' . $this->money_type),
             'amount' => $this->amount,
-            'remark' => $this->remark
+            'remark' => $this->remark,
+            'created_at' => Carbon::parse($this->created_at)->diffForHumans()
         ];
     }
 }

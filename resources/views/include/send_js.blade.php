@@ -267,10 +267,10 @@
                 days: $("input[name='red-packet-days']").val(),
             })
                 .then(function (response) {
-                    console.log(response)
+                    $.toast(response.data.message);
                 })
                 .catch(function (error) {
-                    console.log(error)
+                    $.toast(error.response.data.message);
                 });
         });
     });

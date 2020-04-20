@@ -41,130 +41,22 @@
         <div class="text-center pt-2">
             <div class="pb-2">{{ Auth::user()['nickname'] }}共发出</div>
             <div class="d-flex align-items-end justify-content-center">
-                <div class="font-size-34 line-height-1">2.21</div>
+                <div class="font-size-34 line-height-1">{{ $got_balance }}</div>
                 <div class="line-height-1 pb-1 font-size-14">{{ cache('config_balance_unit') ?: '元' }}</div>
             </div>
         </div>
     </div>
     <div class="d-flex bg-light qh-border-bottom text-center justify-content-around pt-2 pb-3">
         <div>
-            <div class="font-size-20 text-info">4324</div>
+            <div class="font-size-20 text-info">{{ $got_jewel }}</div>
             <div class="font-size-12 text-secondary">发出{{ cache('config_jewel_alias') ?: '钻石' }}</div>
         </div>
         <div>
-            <div class="font-size-20 text-warning">4324</div>
+            <div class="font-size-20 text-warning">{{ $got_integral }}</div>
             <div class="font-size-12 text-secondary">发出{{ cache('config_integral_alias') ?: '积分' }}</div>
         </div>
     </div>
     <div class="bg-white px-3" id="items-wrap">
-        <div class="media py-2 qh-border-bottom">
-            <div class="media-body">
-                <div class="d-flex align-items-center">
-                    <div>视频红包</div>
-                </div>
-                <div class="font-size-14 text-secondary">2分钟前</div>
-            </div>
-            <div class="text-right">
-                <div>1.00元</div>
-                <div class="font-size-14 text-secondary">1/2个</div>
-            </div>
-        </div>
-        <div class="media py-2 qh-border-bottom">
-            <div class="media-body">
-                <div class="d-flex align-items-center">
-                    <div>视频红包</div>
-                </div>
-                <div class="font-size-14 text-secondary">2分钟前</div>
-            </div>
-            <div class="text-right">
-                <div>1.00元</div>
-                <div class="font-size-14 text-secondary">1/2个</div>
-            </div>
-        </div>
-        <div class="media py-2 qh-border-bottom">
-            <div class="media-body">
-                <div class="d-flex align-items-center">
-                    <div>视频红包</div>
-                </div>
-                <div class="font-size-14 text-secondary">2分钟前</div>
-            </div>
-            <div class="text-right">
-                <div>1.00元</div>
-                <div class="font-size-14 text-secondary">1/2个</div>
-            </div>
-        </div>
-        <div class="media py-2 qh-border-bottom">
-            <div class="media-body">
-                <div class="d-flex align-items-center">
-                    <div>视频红包</div>
-                </div>
-                <div class="font-size-14 text-secondary">2分钟前</div>
-            </div>
-            <div class="text-right">
-                <div>1.00元</div>
-                <div class="font-size-14 text-secondary">1/2个</div>
-            </div>
-        </div>
-        <div class="media py-2 qh-border-bottom">
-            <div class="media-body">
-                <div class="d-flex align-items-center">
-                    <div>视频红包</div>
-                </div>
-                <div class="font-size-14 text-secondary">2分钟前</div>
-            </div>
-            <div class="text-right">
-                <div>1.00元</div>
-                <div class="font-size-14 text-secondary">1/2个</div>
-            </div>
-        </div>
-        <div class="media py-2 qh-border-bottom">
-            <div class="media-body">
-                <div class="d-flex align-items-center">
-                    <div>视频红包</div>
-                </div>
-                <div class="font-size-14 text-secondary">2分钟前</div>
-            </div>
-            <div class="text-right">
-                <div>1.00元</div>
-                <div class="font-size-14 text-secondary">1/2个</div>
-            </div>
-        </div>
-        <div class="media py-2 qh-border-bottom">
-            <div class="media-body">
-                <div class="d-flex align-items-center">
-                    <div>视频红包</div>
-                </div>
-                <div class="font-size-14 text-secondary">2分钟前</div>
-            </div>
-            <div class="text-right">
-                <div>1.00元</div>
-                <div class="font-size-14 text-secondary">1/2个</div>
-            </div>
-        </div>
-        <div class="media py-2 qh-border-bottom">
-            <div class="media-body">
-                <div class="d-flex align-items-center">
-                    <div>视频红包</div>
-                </div>
-                <div class="font-size-14 text-secondary">2分钟前</div>
-            </div>
-            <div class="text-right">
-                <div>1.00元</div>
-                <div class="font-size-14 text-secondary">1/2个</div>
-            </div>
-        </div>
-        <div class="media py-2 qh-border-bottom">
-            <div class="media-body">
-                <div class="d-flex align-items-center">
-                    <div>视频红包</div>
-                </div>
-                <div class="font-size-14 text-secondary">2分钟前</div>
-            </div>
-            <div class="text-right">
-                <div>1.00元</div>
-                <div class="font-size-14 text-secondary">1/2个</div>
-            </div>
-        </div>
     </div>
     <div class="weui-loadmore d-none" id="items-loading">
         <i class="weui-loading"></i>
@@ -173,7 +65,6 @@
 @endsection
 
 @push('scripts')
-    @includeIf('red_packet::include.send_js')
     <script>
         function showMenu() {
             $.actions({
@@ -192,51 +83,54 @@
         }
 
         var loading = false;
-        $(document.body).infinite().on("infinite", function () {
+        var page = 0;
+
+        $(function () {
+            loadData()
+        });
+
+        $(document.body).infinite().on("infinite", loadData);
+
+        function loadData() {
             if (loading) return;
             loading = true;
             $('#items-loading').removeClass('d-none');
-
-            axios.get('{{ route('plugin-red-packet.got') }}').then(function () {
+            axios.get('{{ route('plugin-red-packet.my-got') }}', {
+                params: {page: page}
+            }).then(function (response) {
                 setTimeout(function () {
-                    $("#items-wrap").append('<div class="media py-2 qh-border-bottom show-item">\n' +
-                        '            <div class="media-body">\n' +
-                        '                <div class="d-flex align-items-center">\n' +
-                        '                    <div>视频红包</div>\n' +
-                        '                </div>\n' +
-                        '                <div class="font-size-14 text-secondary">2分钟前</div>\n' +
-                        '            </div>\n' +
-                        '            <div class="text-right">\n' +
-                        '                <div>1.00元</div>\n' +
-                        '                <div class="font-size-14 text-secondary">1/2个</div>\n' +
-                        '            </div>\n' +
-                        '        </div><div class="media py-2 qh-border-bottom show-item">\n' +
-                        '            <div class="media-body">\n' +
-                        '                <div class="d-flex align-items-center">\n' +
-                        '                    <div>视频红包</div>\n' +
-                        '                </div>\n' +
-                        '                <div class="font-size-14 text-secondary">2分钟前</div>\n' +
-                        '            </div>\n' +
-                        '            <div class="text-right">\n' +
-                        '                <div>1.00元</div>\n' +
-                        '                <div class="font-size-14 text-secondary">1/2个</div>\n' +
-                        '            </div>\n' +
-                        '        </div><div class="media py-2 qh-border-bottom show-item">\n' +
-                        '            <div class="media-body">\n' +
-                        '                <div class="d-flex align-items-center">\n' +
-                        '                    <div>视频红包</div>\n' +
-                        '                </div>\n' +
-                        '                <div class="font-size-14 text-secondary">2分钟前</div>\n' +
-                        '            </div>\n' +
-                        '            <div class="text-right">\n' +
-                        '                <div>1.00元</div>\n' +
-                        '                <div class="font-size-14 text-secondary">1/2个</div>\n' +
-                        '            </div>\n' +
-                        '        </div>');
-                    loading = false;
-                    $('#items-loading').addClass('d-none');
-                }, 1500);
+                    var data = response.data.data;
+                    for (var i in data) {
+                        $("#items-wrap").append('<a href="' + data[i].show_url + '" class="media py-2 text-dark qh-border-bottom show-item">\n' +
+                            '            <div class="media-body">\n' +
+                            '                <div>\n' +
+                            '                    <div>' + data[i].type_text + '<small class="ml-2 text-secondary">' + data[i].module_name_text + '</small></div>\n' +
+                            '                </div>\n' +
+                            '                <div class="font-size-14 text-secondary">' + data[i].created_at + '</div>\n' +
+                            '            </div>\n' +
+                            '            <div class="text-right">\n' +
+                            '                <div>' + data[i].money_type_name + data[i].money_total + data[i].money_type_unit + '</div>\n' +
+                            '                <div class="font-size-14 text-secondary">' + data[i].log_count + '/' + data[i].amount + '个</div>\n' +
+                            '            </div>\n' +
+                            '        </a>');
+                    }
+                    if (response.data.meta.current_page < response.data.meta.last_page) {
+                        page += 1;
+                        loading = false;
+                        $('#items-loading').addClass('d-none');
+                    } else {
+                        loading = true;
+                        if (page > 1) {
+                            $('#items-loading > i').hide();
+                            $('#items-loading > span').text('没有更多内容了');
+                        } else {
+                            $('#items-loading').addClass('d-none');
+                        }
+                    }
+                }, 1000);
+            }).cache(function (error) {
+                $.toast('读取失败', 'cancel')
             });
-        });
+        }
     </script>
 @endpush

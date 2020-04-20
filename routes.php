@@ -15,12 +15,15 @@ Route::group([
 ], function (Router $router) {
     // 发送的红包
     $router->get('/get', 'ViewController@getRedPacket')->name('plugin-red-packet.get');
+    $router->get('/my-get', 'ApiController@getLog')->name('plugin-red-packet.my-get');
 
     // 收到的红包
     $router->get('/got', 'ViewController@gotRedPacket')->name('plugin-red-packet.got');
+    $router->get('/my-got', 'ApiController@gotLog')->name('plugin-red-packet.my-got');
 
-    // 红包详细，显示红包来源|去处
-    $router->get('/show', 'ViewController@show')->name('plugin-red-packet.show');
+    // 红包的领取记录
+    $router->get('/show/{id}', 'ViewController@show')->name('plugin-red-packet.show');
+    $router->get('/my-show/{id}', 'ApiController@show')->name('plugin-red-packet.my-show');
 
     // 领取红包
     $router->post('/get', 'ApiController@getRedPacket');
@@ -42,12 +45,11 @@ Route::group([
 
 ], function (Router $router) {
     // 红包设置
-    $router->get('red-packet/config', 'SettingController@setting');
+    $router->get('red-packet-config', 'SettingController@setting')->name('admin.red-packet-config');
 
     // 红包管理
     $router->resource('red-packet-index', 'IndexController', ['as' => 'admin']);
 
     // 红包日志
     $router->resource('red-packet-log', 'LogController', ['as' => 'admin']);
-
 });

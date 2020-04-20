@@ -7,6 +7,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 use Qihucms\RedPacket\Models\RedPacket;
 
 class IndexController extends Controller
@@ -43,7 +44,10 @@ class IndexController extends Controller
             'integral' => Cache::get('config_integral_alias', '积分') . '红包',
         ]);
         $grid->column('money_total', __('red_packet::lang.money_total'));
-        $grid->column('amount', __('red_packet::lang.amount'))->suffix('个');
+        $grid->column('amount', __('red_packet::lang.amount'))
+            ->display(function () {
+                return (Redis::get('rid:' . $this->module_name . '-' . $this->module_id . ':Amount') ?? 0) . '/' . $this->amount . '个';
+            });
         $grid->column('rule', __('red_packet::lang.rule.label'))
             ->using(__('red_packet::lang.rule.value'));
         $grid->column('end_time', __('red_packet::lang.end_time'));

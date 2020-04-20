@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingForm extends Form
 {
-    use Plugin;
     /**
      * The form title.
      *
@@ -31,15 +30,19 @@ class SettingForm extends Form
 
         $message = '保存成功';
 
+        $plugin = new Plugin();
+
         // 授权激活
-        if ($request->has('red-packet-license') && Cache::get('red-packet-license') != $data['red-packet-license']) {
-            $result = $this->registerQihuPlugin('red-packet', $data['red-packet-license']);
-            if (isset($result['status']) && $result['status'] == 'success') {
+        if ($request->has('red-packetLicenseKey') && Cache::get('red-packetLicenseKey') != $data['red-packetLicenseKey']) {
+            $result = $plugin->registerPlugin('red-packet', $data['red-packetLicenseKey']);
+            if ($result) {
                 $message .= '；授权激活成功';
             } else {
                 $message .= '；授权激活失败';
             }
         }
+
+        unset($data['red-packetLicenseKey']);
 
         foreach ($data as $key => $value) {
             if ($request->hasFile($key)) {
@@ -99,7 +102,7 @@ class SettingForm extends Form
         $this->rate('plugin_RedPacket_integral_fee', Cache::get('config_integral_alias', '余额') . '红包服务费');
 
         $this->divider('授权');
-        $this->text('red-packet-license', '插件授权')->help('购买授权地址：<a href="http://ka.qihucms.com/product/" target="_blank">http://ka.qihucms.com</a>');
+        $this->text('red-packetLicenseKey', '插件授权')->help('购买授权地址：<a href="http://ka.qihucms.com/product/" target="_blank">http://ka.qihucms.com</a>');
     }
 
     /**
@@ -129,7 +132,7 @@ class SettingForm extends Form
             'plugin_RedPacket_jewel_fee' => Cache::get('plugin_RedPacket_jewel_fee'),
             'plugin_RedPacket_integral_fee' => Cache::get('plugin_RedPacket_integral_fee'),
 
-            'red-packet-license' => Cache::get('red-packet-license'),
+            'red-packetLicenseKey' => Cache::get('red-packetLicenseKey'),
         ];
     }
 }

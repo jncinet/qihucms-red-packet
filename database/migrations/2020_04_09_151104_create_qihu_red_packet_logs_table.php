@@ -18,6 +18,7 @@ class CreateQihuRedPacketLogsTable extends Migration
             $table->unsignedBigInteger('red_packet_id')->index()->comment('红包ID');
             $table->unsignedBigInteger('user_id')->index()->comment('发送会员ID');
             $table->unsignedBigInteger('to_user_id')->index()->comment('领取会员ID');
+            $table->string('money_type', 56)->comment('红包类型');
             $table->unsignedDecimal('amount')->comment('领取的金额');
             $table->string('remark')->nullable()->comment('备注');
             $table->timestamps();

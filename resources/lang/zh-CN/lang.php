@@ -16,6 +16,16 @@ return [
         'value' => ['default' => '普通红包', 'random' => '拼手气红包']
     ],
     'money_type' => '红包金额类型',
+    'money_type_name' => [
+        'balance' => cache('config_balance_alias'),
+        'jewel' => cache('config_jewel_alias'),
+        'integral' => cache('config_integral_alias'),
+    ],
+    'money_type_unit' => [
+        'balance' => cache('config_balance_unit'),
+        'jewel' => cache('config_jewel_unit'),
+        'integral' => cache('config_integral_unit'),
+    ],
     'money_total' => '红包金额',
     'amount' => '红包数量',
     'message' => '口令',
