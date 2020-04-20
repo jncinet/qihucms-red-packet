@@ -46,7 +46,7 @@ class UninstallCommand extends Command
         Redis::del('rid:*');
 
         // 删除migrate记录
-        DB::table('migrations')->where('migration', 'like', '%qihu_red_packets%_table')
+        DB::table('migrations')->where('migration', 'like', '%qihu_red_packet%_table')
             ->delete();
 
         // 删除表
