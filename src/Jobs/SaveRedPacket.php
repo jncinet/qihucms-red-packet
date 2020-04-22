@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\ShortVideo;
 use App\Models\User;
 use App\Repositories\AccountRepository;
+use App\Repositories\CommentRepository;
 use App\Repositories\ShortVideoRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Bus\Queueable;
@@ -13,6 +14,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Qihucms\RedPacket\Models\RedPacket;
 use Qihucms\RedPacket\Models\RedPacketLog;
 
@@ -36,9 +39,12 @@ class SaveRedPacket implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param CommentRepository $commentRepository
+     * @param ShortVideoRepository $shortVideoRepository
+     * @param UserRepository $userRepository
      * @return void
      */
-    public function handle()
+    public function handle(CommentRepository $commentRepository, ShortVideoRepository $shortVideoRepository, UserRepository $userRepository)
     {
         $redPacket = RedPacket::find($this->data['red_packet_id']);
         // 红包是否存在
@@ -60,29 +66,37 @@ class SaveRedPacket implements ShouldQueue
                         break;
                 }
 
+                if (!empty($redPacket->rule)) {
+                    if (is_array($redPacket->rule)) {
+                        $roles = $redPacket->rule;
+                    } else {
+                        $roles = Arr::wrap($redPacket->rule);
+                    }
+                } else {
+                    $roles = [];
+                }
+
                 // 后续操作
-                if (is_array($redPacket->rule)) {
-                    foreach ($redPacket->rule as $value) {
+                if (count($roles) > 0) {
+                    foreach ($roles as $value) {
                         // 后续效果
                         switch ($value) {
                             // 点赞
                             case 'fans':
-                                $user = User::find($this->data['to_user_id']);
-                                if ($user) {
-                                    $userRepository = new UserRepository($user);
-                                    $userRepository->follow($user->id, $redPacket->user_id);
+                                if (!$userRepository->isFollow($this->data['to_user_id'], $redPacket->user_id)) {
+                                    $userRepository->follow($this->data['to_user_id'], $redPacket->user_id);
                                 }
                                 break;
                             case 'like':
                                 if ($redPacket->module_name == 'short_video') {
-                                    $short_video = ShortVideo::find($redPacket->module_id);
-                                    $shortVideoRepository = new ShortVideoRepository($short_video);
-                                    $shortVideoRepository->like($this->data['to_user_id'], $short_video->id);
+                                    if (!$shortVideoRepository->isLike($this->data['to_user_id'], $redPacket->module_id)) {
+                                        $shortVideoRepository->like($this->data['to_user_id'], $redPacket->module_id);
+                                    }
                                 }
                                 break;
                             case 'comment':
                                 if ($redPacket->module_name == 'short_video') {
-                                    Comment::create([
+                                    $commentRepository->storeComment([
                                         'content_type' => 'short_video',
                                         'content_id' => $redPacket->module_id,
                                         'to_user_id' => $redPacket->user_id,

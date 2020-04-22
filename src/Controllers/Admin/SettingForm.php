@@ -97,12 +97,13 @@ class SettingForm extends Form
 
         $this->divider('服务费');
         $this->rate('plugin_RedPacket_balance_fee', Cache::get('config_balance_alias', '余额') . '红包服务费')
-            ->help('会员领取红包后，扣除的服务费百分比');
+            ->help('会员发送红包时，服务费百分比');
         $this->rate('plugin_RedPacket_jewel_fee', Cache::get('config_jewel_alias', '余额') . '红包服务费');
         $this->rate('plugin_RedPacket_integral_fee', Cache::get('config_integral_alias', '余额') . '红包服务费');
 
         $this->divider('授权');
-        $this->text('red-packetLicenseKey', '插件授权')->help('购买授权地址：<a href="http://ka.qihucms.com/product/" target="_blank">http://ka.qihucms.com</a>');
+        $this->text('red-packetLicenseKey', '插件授权')
+            ->help('购买授权地址：<a href="http://ka.qihucms.com/product/" target="_blank">http://ka.qihucms.com</a>');
     }
 
     /**

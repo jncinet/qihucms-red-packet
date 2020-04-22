@@ -14,7 +14,7 @@
 
         // 计算红包总金额
         function countRedPacketTotalMoney() {
-            // *** 红包类型：0.普通红包，1.拼手气红包 *** //
+            // *** 红包类型：default.普通红包，random.拼手气红包 *** //
             var redPacketType = $('input[name="red-packet-type"]:checked').val();
 
             // *** 奖金类型 *** //
@@ -28,7 +28,7 @@
                 : parseInt(redPacketMoneyTotal);
 
             // 拼手气红包，直接输入总金额
-            if (redPacketType === "1") {
+            if (redPacketType === "random") {
                 return redPacketMoneyTotal;
             }
 
@@ -135,7 +135,7 @@
 
         // 根据红包类型设置提示文字：普通红包=>单个金额，拼手气红包=>总金额
         function updateRedPacketType() {
-            if ($('input[name="red-packet-type"]:checked').val() === "1") {
+            if ($('input[name="red-packet-type"]:checked').val() === "random") {
                 $('#red-packet-money-label').text("总金额：");
             } else {
                 $('#red-packet-money-label').text("单个金额：");
@@ -151,7 +151,7 @@
                 total_money = parseFloat(countRedPacketTotalMoney()) + countRedPacketRate();
 
             // 拼手气红包要判断红包金额是否够分配
-            if ($('input[name="red-packet-type"]:checked').val() === '1') {
+            if ($('input[name="red-packet-type"]:checked').val() === 'random') {
                 var money = $('input[name="red-packet-money-total"]').val();
                 var amount = $('input[name="red-packet-amount"]').val();
 
@@ -255,22 +255,39 @@
         });
 
         $('#red-packet-submit').on('click', function () {
+            var module_name = $("input[name='red-packet-module-name']").val(),
+                module_id = $("input[name='red-packet-module-id']").val(),
+                type = $("input[name='red-packet-type']:checked").val(),
+                money_type = $("input[name='red-packet-type-money']:checked").val(),
+                money_total = $('input[name="red-packet-money-total"]').val(),
+                amount = $('input[name="red-packet-amount"]').val();
+            amount = parseInt(amount);
+            if (!numberReg.test(amount) || !numberReg.test(money_total) || amount < 1 || parseFloat(money_total) <= 0) return false;
             axios.post("{{ route('plugin-red-packet.store') }}", {
-                module_name: $("input[name='red-packet-module-name']").val(),
-                module_id: $("input[name='red-packet-module-id']").val(),
-                type: $("input[name='red-packet-type']:checked").val(),
-                money_type: $("input[name='red-packet-type-money']:checked").val(),
-                money_total: $('input[name="red-packet-money-total"]').val(),
-                amount: $('input[name="red-packet-amount"]').val(),
+                module_name,
+                module_id,
+                type,
+                money_type,
+                money_total,
+                amount,
                 message: $('input[name="red-packet-message"]').val(),
                 rule: $("input[name='red-packet-rule']:checked").val(),
                 days: $("input[name='red-packet-days']").val(),
             })
                 .then(function (response) {
+                    $.closePopup();
+                    $('input[name="red-packet-money-total"]').val('');
+                    $('input[name="red-packet-amount"]').val('');
+                    $('input[name="red-packet-message"]').val('');
                     $.toast(response.data.message);
                 })
                 .catch(function (error) {
-                    $.toast(error.response.data.message);
+                    if (error.response.data.hasOwnProperty('status')) {
+                        $.toast(error.response.data.message, 'forbidden');
+                    } else {
+                        console.log(error.response);
+                        $.toast('请检查红包', 'forbidden');
+                    }
                 });
         });
     });

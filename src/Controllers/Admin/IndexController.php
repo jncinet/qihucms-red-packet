@@ -46,7 +46,10 @@ class IndexController extends Controller
         $grid->column('money_total', __('red_packet::lang.money_total'));
         $grid->column('amount', __('red_packet::lang.amount'))
             ->display(function () {
-                return (Redis::get('rid:' . $this->module_name . '-' . $this->module_id . ':Amount') ?? 0) . '/' . $this->amount . '个';
+                if ($this->status == 1) {
+                    return (Redis::get('rid:' . $this->module_name . '-' . $this->module_id . ':Amount') ?? 0) . '/' . $this->amount . '个';
+                }
+                return $this->amount . '个';
             });
         $grid->column('rule', __('red_packet::lang.rule.label'))
             ->using(__('red_packet::lang.rule.value'));

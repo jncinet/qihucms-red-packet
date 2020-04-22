@@ -4,6 +4,7 @@ namespace Qihucms\RedPacket\Commands;
 
 use App\Plugins\Plugin;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Schema;
@@ -60,6 +61,32 @@ class UninstallCommand extends Command
 
         // 清除插件缓存
         (new Plugin())->clearPluginCache('red-packet');
+
+        // 删除配置缓存信息
+        $configs =  [
+            'plugin_RedPacket_status',
+            'plugin_RedPacket_types',
+            'plugin_RedPacket_money_types',
+
+            'plugin_RedPacket_rules',
+            'plugin_RedPacket_vip_rules',
+
+            'plugin_RedPacket_balance_pr',
+            'plugin_RedPacket_jewel_pr',
+            'plugin_RedPacket_integral_pr',
+
+            'plugin_RedPacket_balance_bg',
+            'plugin_RedPacket_jewel_bg',
+            'plugin_RedPacket_integral_bg',
+
+            'plugin_RedPacket_balance_fee',
+            'plugin_RedPacket_jewel_fee',
+            'plugin_RedPacket_integral_fee',
+        ];
+
+        foreach ($configs as $config) {
+            Cache::forget($config);
+        }
 
         $this->info('Uninstall successful.');
     }
