@@ -17,13 +17,6 @@ class SettingForm extends Form
      */
     public $title = '红包配置';
 
-    /**
-     * Handle the form request.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function handle(Request $request)
     {
         $data = $request->all();
@@ -33,7 +26,7 @@ class SettingForm extends Form
         $plugin = new Plugin();
 
         // 授权激活
-        if ($request->has('red-packetLicenseKey') && Cache::get('red-packetLicenseKey') != $data['red-packetLicenseKey']) {
+        if ($request->has('red-packetLicenseKey') && Cache::store('file')->get('red-packetLicenseKey') != $data['red-packetLicenseKey']) {
             $result = $plugin->registerPlugin('red-packet', $data['red-packetLicenseKey']);
             if ($result) {
                 $message .= '；授权激活成功';
