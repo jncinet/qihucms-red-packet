@@ -15,7 +15,9 @@
     }
   ],
   "minimum-stability": "stable",
-  "require": {},
+  "require": {
+    "jncinet/laravel-red-packet-compute": "^1.0"
+  },
   "autoload": {
     "psr-4": {
       "Qihucms\\RedPacket\\": "src/"
