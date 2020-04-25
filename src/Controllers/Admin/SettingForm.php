@@ -133,7 +133,7 @@ class SettingForm extends Form
             'plugin_RedPacket_jewel_fee' => Cache::get('plugin_RedPacket_jewel_fee'),
             'plugin_RedPacket_integral_fee' => Cache::get('plugin_RedPacket_integral_fee'),
 
-            'red-packetLicenseKey' => Cache::get('red-packetLicenseKey'),
+            'red-packetLicenseKey' => Cache::store('file')->get('red-packetLicenseKey'),
         ];
     }
 }
