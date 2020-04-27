@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 
 class UpdateRedPacketCommand extends Command
 {
-    use RedPacketPlugin;
 
     /**
      * The name and signature of the console command.
@@ -40,7 +39,7 @@ class UpdateRedPacketCommand extends Command
      */
     public function handle()
     {
-        $this->clearOverdueRedPacket();
+        (new RedPacketPlugin())->clearOverdueRedPacket();
 
         $this->info('update success.');
     }

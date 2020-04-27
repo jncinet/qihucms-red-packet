@@ -99,11 +99,6 @@ class SettingForm extends Form
             ->help('购买授权地址：<a href="http://ka.qihucms.com/product/" target="_blank">http://ka.qihucms.com</a>');
     }
 
-    /**
-     * The data of the form.
-     *
-     * @return array $data
-     */
     public function data()
     {
         return [

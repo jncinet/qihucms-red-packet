@@ -2,9 +2,6 @@
 
 namespace Qihucms\RedPacket\Jobs;
 
-use App\Models\Comment;
-use App\Models\ShortVideo;
-use App\Models\User;
 use App\Repositories\AccountRepository;
 use App\Repositories\CommentRepository;
 use App\Repositories\ShortVideoRepository;
@@ -15,7 +12,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Qihucms\RedPacket\Models\RedPacket;
 use Qihucms\RedPacket\Models\RedPacketLog;
 

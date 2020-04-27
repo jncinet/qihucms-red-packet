@@ -2,11 +2,11 @@
 
 namespace Qihucms\RedPacket\Controllers;
 
+use App\Plugins\RedPacketPlugin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Qihucms\RedPacket\Models\RedPacket;
 use Qihucms\RedPacket\Models\RedPacketLog;
-use Qihucms\RedPacket\Requests\RedPacketRequest;
 use Qihucms\RedPacket\Resources\RedPacketCollection;
 use Qihucms\RedPacket\Resources\RedPacketLogCollection;
 
@@ -15,7 +15,7 @@ class ApiController extends BaseController
     // 领红包
     public function getRedPacket(Request $request)
     {
-        $items = $this->gettingRedPacket(Auth::id(), $request->input('module_name'), $request->input('module_id'));
+        $items = (new RedPacketPlugin())->gettingRedPacket(Auth::id(), $request->input('module_name'), $request->input('module_id'));
         return response()->json($items);
     }
 
@@ -50,7 +50,7 @@ class ApiController extends BaseController
             'module_name' => '所属模块',
             'module_id' => '模块ID',
         ]);
-        $result = $this->createRedPacket($request->all());
+        $result = (new RedPacketPlugin())->createRedPacket($request->all());
         if ($result['status'] == 'success') {
             return $this->successJson('发布成功', $result['data']);
         }

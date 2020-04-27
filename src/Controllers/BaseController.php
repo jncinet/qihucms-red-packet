@@ -7,12 +7,10 @@ use App\Plugins\RedPacketPlugin;
 
 class BaseController extends Controller
 {
-    use RedPacketPlugin;
-
     public function __construct()
     {
         // 扩展文件和包版本不统一
-        if ($this->pluginVersion() !== 100) {
+        if ((new RedPacketPlugin())->pluginVersion() !== 100) {
             exit('页面不存在');
         }
     }

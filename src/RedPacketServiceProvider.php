@@ -27,26 +27,28 @@ class RedPacketServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                InstallCommand::class,
-                UpgradeCommand::class,
-                UninstallCommand::class,
-                // 定时更新红包状态
-                UpdateRedPacketCommand::class,
+        if (file_exists(app_path('Plugins/RedPacketPlugin.php'))) {
+            if ($this->app->runningInConsole()) {
+                $this->commands([
+                    InstallCommand::class,
+                    UpgradeCommand::class,
+                    UninstallCommand::class,
+                    // 定时更新红包状态
+                    UpdateRedPacketCommand::class,
+                ]);
+            }
+
+            $this->loadRoutesFrom(__DIR__ . '/../routes.php');
+
+            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+            $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'red_packet');
+
+            $this->publishes([
+                __DIR__ . '/../resources/lang' => resource_path('lang/vendor/red_packet'),
             ]);
+
+            $this->loadViewsFrom(__DIR__ . '/../resources/views', 'red_packet');
         }
-
-        $this->loadRoutesFrom(__DIR__ . '/../routes.php');
-
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'red_packet');
-
-        $this->publishes([
-            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/red_packet'),
-        ]);
-
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'red_packet');
     }
 }
